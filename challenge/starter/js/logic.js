@@ -27,6 +27,13 @@ function setBlockTime() {
                 textarea.addClass('future');
             }
 
+            // Set the stored text for the corresponding hour, if available
+            appointments.forEach(function (appointment) {
+                if (appointment.Hour === hour.format('h A')) {
+                    textarea.val(appointment["user text"]);
+                }
+            });
+            
             var saveBtn = $('<button>').addClass('col-1 saveBtn').append($('<i>').addClass('fas fa-save hover'));
             
             saveBtn.on('click', function () {
