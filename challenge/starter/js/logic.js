@@ -1,48 +1,32 @@
-
 var currentDate = dayjs().format('dddd DD, MMMM YYYY');
 $("#currentDay").text(currentDate);
 
 
+function setBlockTime() {
+    var currentTime = dayjs().hour();
 
-// var textarea = $("<div>");
-// textarea.addClass("textarea")
-// textarea.text('hellooo')
+    var startTime = dayjs().startOf('day').add(9, 'hour'); // Start from 9 AM
+    var endTime = dayjs().startOf('day').add(18, 'hour'); // End at 6 PM
 
-// var description = $("div")
-// description.addClass("description")
-// description.text("heloooooooooooooooo")
-
-// $(".container").append(textarea)
-    // Create a time block
-    function createHourBlock(hour) {
+    for (var hour = startTime; hour.isBefore(endTime); hour = hour.add(1, 'hour')) {
         var timeBlock = $('<div>').addClass('row time-block');
-    
-        // Create the time/hour section
-        var hourSection = $('<div>').addClass('col-1 hour').text(hour.format('H A'));
-        timeBlock.append(hourSection);
-    
-        // Create the textarea
-        var textarea = $('<textarea>').addClass('col-9 description present');
-        timeBlock.append(textarea);
-    
-        // Create the save button
-        var saveBtn = $('<button>').addClass('col-1 btn saveBtn');
-        saveBtn.append($('<i>').addClass('fas fa-save'));
-        timeBlock.append(saveBtn);
-    
-        // Append the time block to the container
-        $('.container').append(timeBlock);
-    }
-    
-    function setBlockTime(){
+        var hourSection = $('<div>').addClass('col-1 hour').text(hour.format('h A'));
+        var textarea = $('<textarea>').addClass('col-9 description');
 
-        var startTime = dayjs().startOf('day').add(9, 'hour'); // Start from 9 AM
-        var endTime = dayjs().startOf('day').add(18, 'hour'); // End at 5 PM
-    
-        for (var hour = startTime; hour.isBefore(endTime); hour = hour.add(1, 'hour')) {
-            createHourBlock(hour);
+        // Check if the current hour is in the past, present, or future
+        if (hour.hour() < currentTime) {
+            textarea.addClass('past');
+        } else if (hour.hour() === currentTime) {
+            textarea.addClass('present');
+        } else {
+            textarea.addClass('future');
         }
 
+        var saveBtn = $('<button>').addClass('col-1 saveBtn').append($('<i>').addClass('fas fa-save hover'));
+        timeBlock.append(hourSection, textarea, saveBtn);
+        $('.container').append(timeBlock);
     }
-    setBlockTime()
-    
+}
+
+setBlockTime();
+

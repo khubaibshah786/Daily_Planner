@@ -38,6 +38,7 @@ header {
 }
 
 .hour {
+  padding-top: 2%;
   background-color: #ffffff;
   color: #000000;
   border-top: 1px dashed #000000;
@@ -67,6 +68,7 @@ header {
 }
 
 .saveBtn i:hover {
+  color: black;
   font-size: 20px;
   transition: all 0.3s ease-in-out;
 }
